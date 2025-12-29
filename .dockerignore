@@ -1,0 +1,10 @@
+target/
+!target/shopping-backend-0.0.1-SNAPSHOT.jar
+.mvn/
+.settings/
+.classpath
+.project
+.factorypath
+*.md
+.git
+.gitignore

@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: shopping-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shopping_db
+      MYSQL_USER: shopping_user
+      MYSQL_PASSWORD: shopping_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - shopping-network
+
+  app:
+    build: .
+    container_name: shopping-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/shopping_db
+      SPRING_DATASOURCE_USERNAME: shopping_user
+      SPRING_DATASOURCE_PASSWORD: shopping_pass
+    networks:
+      - shopping-network
+
+volumes:
+  mysql_data:
+
+networks:
+  shopping-network:
+    driver: bridge
